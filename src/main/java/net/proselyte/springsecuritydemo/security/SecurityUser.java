@@ -13,6 +13,7 @@ import java.util.List;
 @Data
 public class SecurityUser implements UserDetails {
 
+    //поля для User
     private final String username;
     private final String password;
     private final List<SimpleGrantedAuthority> authorities;
@@ -60,6 +61,7 @@ public class SecurityUser implements UserDetails {
         return isActive;
     }
 
+    /*Метод для преобразования нашего User в UserDetails*/
     public static UserDetails fromUser(User user) {
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(), user.getPassword(),
