@@ -15,8 +15,11 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true) //говорим, что секьюрити глобально прописано в методах
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    /* Чтобы разграничить доступ к ресурсам по РОЛЯМ не через antMatchers (особенно если их много)
+     * можно это делать прямо из Контроллера с помощью аннотаций @PreAuthorize
+     * Это бывает более удобно и лаконичнее, чем прописывать url паттерны через antMatchers и давать к ним разрешения.*/
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http

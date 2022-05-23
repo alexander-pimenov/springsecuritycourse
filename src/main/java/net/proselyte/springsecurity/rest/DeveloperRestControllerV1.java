@@ -22,6 +22,10 @@ public class DeveloperRestControllerV1 {
         return DEVELOPERS;
     }
 
+    /* Чтобы разграничить доступ к ресурсам (паттерны url) по РОЛЯМ не через antMatchers
+     * (особенно если их много) в методе SecurityConfig#configure()
+     * можно это делать прямо из Контроллера с помощью аннотаций @PreAuthorize*/
+    //и это можно использовать @PreAuthorize("hasAuthority('developers:write')")
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public Developer getById(@PathVariable Long id) {
@@ -31,6 +35,7 @@ public class DeveloperRestControllerV1 {
                 .orElse(null);
     }
 
+    //и это можно использовать  @PreAuthorize("hasAuthority('developers:write')")
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Developer create(@RequestBody Developer developer) {
