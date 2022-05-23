@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/*STEP7 - аутентификация с помощью формы логина (сессии)*/
 @RestController
 @RequestMapping("/api/v1/developers")
 public class DeveloperRestControllerV1 {
