@@ -26,19 +26,32 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic();
     }
 
+    /* Переопределяем метод userDetailsService() потому что хотим настроить
+    * InMemoryUserDetailsManager, т.е. чтобы сохранялись имя и пароль пользователей в памяти
+    * (пока работает приложение)*/
     @Bean
     @Override
     protected UserDetailsService userDetailsService() {
+        //верни мне InMemoryUserDetailsManager
         return new InMemoryUserDetailsManager(
-                User.builder().username("proselyte")
+                //положи внутрь User
+                User.builder()
+                        //дай ему username=proselyte
+                        .username("proselyte")
                         // Use without encode first
+                        //Хранит пароли открытым текстом не стоит
+                        //здесь шифруем пароль с помощью PasswordEncoder
+                        //и размещаем это в памяти
                         .password(passwordEncoder().encode("proselyte"))
+                        //пусть у него роль будет ADMIN
                         .roles("ADMIN")
                         .build()
         );
         // Go to UserDetailsServiceImpl - InMemory
     }
 
+    /*Таким образом мы можем кодировать (шифровать) пароль с помощью PasswordEncoder,
+    * это аналогично как шифруется на сайте https://bcrypt-generator.com/*/
     @Bean
     protected PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder(12);
