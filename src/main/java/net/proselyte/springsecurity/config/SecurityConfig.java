@@ -19,7 +19,10 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
  * Для этого используется такое понятие, как permissions
  * Например, на чтение имеют доступ те, которые имеют permissions = developers:read,
  * а на запись, те которые имеют permissions = developers:write.
- * Доступ мы настраиваем для permission, а не для ролей, как было в предыдущем STEP4*/
+ * Доступ мы настраиваем для permission, а не для ролей, как было в предыдущем STEP4
+ *
+ * Также можно настраивать Authority с помощью аннотаций прямо из контроллера.
+ * Смотри STEP6*/
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
