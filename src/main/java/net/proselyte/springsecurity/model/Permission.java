@@ -1,5 +1,6 @@
 package net.proselyte.springsecurity.model;
 
+/*Создадим несколько разрешений permissions*/
 public enum Permission {
     DEVELOPERS_READ("developers:read"),
     DEVELOPERS_WRITE("developers:write");
