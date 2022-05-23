@@ -29,12 +29,14 @@ public class DeveloperRestControllerV1 {
                 .orElse(null);
     }
 
+    /*Эндпоинт для добавления девелопера*/
     @PostMapping
     public Developer create(@RequestBody Developer developer) {
         this.DEVELOPERS.add(developer);
         return developer;
     }
 
+    /*Эндпоинт по удалению девелопера по его id*/
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable Long id) {
         this.DEVELOPERS.removeIf(developer -> developer.getId().equals(id));
