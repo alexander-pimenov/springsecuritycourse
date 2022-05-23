@@ -27,17 +27,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .authenticated()
                 .and()
+                //теперь используем форму для логина
                 .formLogin()
+                //есть loginPage и она находится по ссылке "/auth/login"
                 .loginPage("/auth/login").permitAll()
+                //если всё хорошо, то мы перенаправляемся на страницу "/success"
                 .defaultSuccessUrl("/success")
                 .and()
+                //настраиваем logout
                 .logout()
                 // use this first
                 //.logoutUrl("/auth/logout")
+                //logoutRequestMatcher должен быть обработан AntPathRequestMatcher-ом
+                //logout должен проходить по ссылке "/auth/logout" и метод "POST"
                 .logoutRequestMatcher(new AntPathRequestMatcher("/auth/logout", "POST"))
                 .invalidateHttpSession(true)
+                //очистим аутентификацию
                 .clearAuthentication(true)
+                //удалить куки с названием JSESSIONID
                 .deleteCookies("JSESSIONID")
+                //и потом должен быть перенаправлен на страницу (на метод контроллера) "/auth/login"
                 .logoutSuccessUrl("/auth/login");
     }
 
