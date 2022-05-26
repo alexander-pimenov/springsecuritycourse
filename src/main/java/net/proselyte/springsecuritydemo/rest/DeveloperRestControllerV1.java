@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/*Класс для тестового сохранения девелоперов во время работы приложения.
+* Конечно можно его переписать для сохранения в БД.*/
 @RestController
 @RequestMapping("/api/v1/developers")
 public class DeveloperRestControllerV1 {
