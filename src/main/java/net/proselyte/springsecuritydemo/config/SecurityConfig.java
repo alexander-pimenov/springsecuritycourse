@@ -38,6 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .apply(jwtConfigurer);
     }
 
+
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {

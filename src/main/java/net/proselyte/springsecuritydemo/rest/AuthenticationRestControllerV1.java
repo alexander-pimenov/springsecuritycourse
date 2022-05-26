@@ -24,8 +24,11 @@ import java.util.Map;
 @RequestMapping("/api/v1/auth")
 public class AuthenticationRestControllerV1 {
 
+    //аутентификационный менеджер (его обязательно нужно конфигурировать)
     private final AuthenticationManager authenticationManager;
+    //связь с репозиторием
     private UserRepository userRepository;
+    //провайдер токена
     private JwtTokenProvider jwtTokenProvider;
 
     public AuthenticationRestControllerV1(AuthenticationManager authenticationManager, UserRepository userRepository, JwtTokenProvider jwtTokenProvider) {
@@ -34,21 +37,30 @@ public class AuthenticationRestControllerV1 {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
+    /*В параметр этого метода мы будем ожидать объект которые переложится в AuthenticationRequestDTO*/
     @PostMapping("/login")
     public ResponseEntity<?> authenticate(@RequestBody AuthenticationRequestDTO request) {
         try {
+            /* аутентификационный менеджер authenticationManager аутентифицируй мне пользователя с помощью
+             * UsernamePasswordAuthenticationToken с определенным email и password*/
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+            //находим нашего внутри системного юзера
             User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new UsernameNotFoundException("User doesn't exists"));
+            //когда нашли юзера, то создаем токен
             String token = jwtTokenProvider.createToken(request.getEmail(), user.getRole().name());
+            //теперь создаем ответ для пользователя
             Map<Object, Object> response = new HashMap<>();
             response.put("email", request.getEmail());
             response.put("token", token);
+            //возвращаем окей респонз
             return ResponseEntity.ok(response);
         } catch (AuthenticationException e) {
+            //если что-то во время логина пошло не так, то выведем сообщение пользователю
             return new ResponseEntity<>("Invalid email/password combination", HttpStatus.FORBIDDEN);
         }
     }
 
+    /*Вызывая этот метод мы будем разлогиниваться.*/
     @PostMapping("/logout")
     public void logout(HttpServletRequest request, HttpServletResponse response) {
         SecurityContextLogoutHandler securityContextLogoutHandler = new SecurityContextLogoutHandler();

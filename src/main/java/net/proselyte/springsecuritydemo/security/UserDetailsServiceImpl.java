@@ -8,7 +8,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-@Service("userDetailsServiceImpl")
+/*В SPET1-7 мы использовали дефолтную UserDetailsService от Спринга, только немного
+ * настраивали его protected UserDetailsService userDetailsService()
+ * А теперь нужно реализовать интерфейс UserDetailsService*/
+@Service("userDetailsServiceImpl") // указали qualifier "userDetailsServiceImpl"
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;
