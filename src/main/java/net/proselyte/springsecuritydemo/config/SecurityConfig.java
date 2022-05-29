@@ -22,6 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
 
+    /*Чтобы не было вдруг неоднозначности мы укажем через @Qualifier нужный нам бин -> userDetailsServiceImpl*/
     @Autowired
     public SecurityConfig(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
@@ -48,7 +49,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/auth/login");
     }
 
-    /*Конфигурации говорим, что провайдер будет не стандартный, а daoAuthenticationProvider*/
+    /*И конечно добавим еще одну конфигурацию. Есть изменения по сравнению со STEP7.
+     * Конфигурации говорим, что провайдер будет не стандартный, а daoAuthenticationProvider,
+     * т.е. связанный с БД*/
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(daoAuthenticationProvider());
@@ -63,7 +66,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     protected DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+        //твой passwordEncoder будет тот, который уже есть выше -> PasswordEncoder passwordEncoder()
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+        //а UserDetailsService будет userDetailsService
         daoAuthenticationProvider.setUserDetailsService(userDetailsService);
         return daoAuthenticationProvider;
     }

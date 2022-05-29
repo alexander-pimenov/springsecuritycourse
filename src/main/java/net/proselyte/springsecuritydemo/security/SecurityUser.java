@@ -63,15 +63,20 @@ public class SecurityUser implements UserDetails {
         return isActive;
     }
 
-    /*Здесь мы преобразовываем юзера User из нашей БД в UserDetails*/
+    /*Здесь мы преобразовываем юзера User из нашей БД в UserDetails
+    * */
     public static UserDetails fromUser(User user) {
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(),
                 user.getPassword(),
+                //чтобы работал юзер, мы ему дадим статус ACTIVE, если будет что-то другое,
+                //например BANNED, то нам не дадут вход в систему
+                //для этого и проверяем на равенство со статусом ACTIVE
                 user.getStatus().equals(Status.ACTIVE),
                 user.getStatus().equals(Status.ACTIVE),
                 user.getStatus().equals(Status.ACTIVE),
                 user.getStatus().equals(Status.ACTIVE),
+                //вытаскиваем его разрешения
                 user.getRole().getAuthorities()
         );
     }
