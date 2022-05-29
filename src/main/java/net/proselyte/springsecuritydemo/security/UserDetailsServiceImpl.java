@@ -9,8 +9,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 /*В SPET1-7 мы использовали дефолтную UserDetailsService от Спринга, только немного
-* настраивали его protected UserDetailsService userDetailsService()
-* А теперь нужно реализовать интерфейс UserDetailsService*/
+ * настраивали его protected UserDetailsService userDetailsService()
+ * А теперь нужно реализовать интерфейс UserDetailsService
+ * И в частности его метод loadUserByUsername*/
 @Service("userDetailsServiceImpl") // указали qualifier "userDetailsServiceImpl"
 public class UserDetailsServiceImpl implements UserDetailsService {
 
@@ -24,9 +25,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        //получаем нашего User
-        User user = userRepository.findByEmail(email).orElseThrow(() ->
-                new UsernameNotFoundException("User doesn't exists"));
+        //Находим нашего юзера, который есть в БД
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User doesn't exists"));
         return SecurityUser.fromUser(user);
     }
 }

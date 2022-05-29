@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+/*Представление нашего юзера хранящегося в БД*/
 @Data
 @Entity
 @Table(name = "users")

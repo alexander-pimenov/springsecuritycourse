@@ -16,6 +16,8 @@ public class SecurityUser implements UserDetails {
     //поля для User
     private final String username;
     private final String password;
+
+    /*Коллекция разрешений SimpleGrantedAuthority*/
     private final List<SimpleGrantedAuthority> authorities;
     private final boolean isActive;
 
@@ -61,10 +63,11 @@ public class SecurityUser implements UserDetails {
         return isActive;
     }
 
-    /*Метод для преобразования нашего User в UserDetails*/
+    /*Здесь мы преобразовываем юзера User из нашей БД в UserDetails*/
     public static UserDetails fromUser(User user) {
         return new org.springframework.security.core.userdetails.User(
-                user.getEmail(), user.getPassword(),
+                user.getEmail(),
+                user.getPassword(),
                 user.getStatus().equals(Status.ACTIVE),
                 user.getStatus().equals(Status.ACTIVE),
                 user.getStatus().equals(Status.ACTIVE),
