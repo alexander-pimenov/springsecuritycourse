@@ -7,7 +7,8 @@ import org.springframework.security.core.AuthenticationException;
 @Getter
 public class JwtAuthenticationException extends AuthenticationException {
 
-    /*Добавляем сюда еще для удобства спринговый HttpStatus, чтобы можно было его добавлять в exception*/
+    /*Добавляем сюда еще для удобства спринговый HttpStatus, чтобы можно было его добавлять в exception.
+    * Это будет юзер френдли.*/
     private HttpStatus httpStatus;
 
     public JwtAuthenticationException(String msg) {

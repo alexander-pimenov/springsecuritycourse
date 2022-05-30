@@ -13,8 +13,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/* Из этого класса создаем объект Фильтр JwtTokenFilter extends GenericFilterBean,
- * который будет пропускать запросы через себя (гетэвей)*/
+/* Запросы от клиентов идут к серверу через фильтр.
+ * И внутри этого фильтра мы проверяем наличие токена у клиента.
+ * Если токен есть, то мы его валидируем (не закончился ли у него срок действия).
+ * Дальше проверяем, есть ли аутентификация для данного токена.
+ * И если всё ОК, то только тогда фильтр пропускает запрос от клиента.
+ * Если нет, то делаем отказ в запросе к серверу.
+ * Из этого класса создаем объект Фильтр JwtTokenFilter extends GenericFilterBean,
+ * который будет пропускать запросы через себя (гетэвей).
+ * Переопределим также метод интерфейса Filter doFilter().
+ * В pom.xml мы подключили библиотеку для создания и парсинга JWT токенов.*/
 @Component
 public class JwtTokenFilter extends GenericFilterBean {
     private final JwtTokenProvider jwtTokenProvider;
@@ -27,11 +35,12 @@ public class JwtTokenFilter extends GenericFilterBean {
      * */
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        //Достанем из запроса токен
         String token = jwtTokenProvider.resolveToken((HttpServletRequest) servletRequest);
         //проверяем токен
         try {
             if (token != null && jwtTokenProvider.validateToken(token)) {
-                //и получаем объект Authentication
+                //если в if() есть true, то получаем объект Authentication
                 Authentication authentication = jwtTokenProvider.getAuthentication(token);
                 if (authentication != null) {
                     //если Authentication не null, то пусть SecurityContextHolder возьмет свой
@@ -43,7 +52,7 @@ public class JwtTokenFilter extends GenericFilterBean {
             //если вдруг исключение, то SecurityContextHolder очисти свой контекст и в ответ пользователю запихнем ошибку
             SecurityContextHolder.clearContext();
             ((HttpServletResponse) servletResponse).sendError(e.getHttpStatus().value());
-            //и для себя кинем новое сообщение ,чтоб его видели
+            //и для себя кинем новое сообщение, чтоб его видели
             throw new JwtAuthenticationException("JWT token is expired or invalid");
         }
         //если всё нормально отработало и мы не поймали никаких исключений, то filterChain передай дальше

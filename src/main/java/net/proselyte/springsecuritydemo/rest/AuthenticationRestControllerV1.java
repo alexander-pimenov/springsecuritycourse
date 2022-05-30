@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
+/*Контроллер для получения запроса на аутентификацию.*/
 @RestController
 @RequestMapping("/api/v1/auth")
 public class AuthenticationRestControllerV1 {
@@ -37,7 +38,8 @@ public class AuthenticationRestControllerV1 {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    /*В параметр этого метода мы будем ожидать объект которые переложится в AuthenticationRequestDTO*/
+    /*В параметр этого метода мы будем ожидать объект которые переложится в AuthenticationRequestDTO.
+    * Для аутентификации нужен login, он же email, и password.*/
     @PostMapping("/login")
     public ResponseEntity<?> authenticate(@RequestBody AuthenticationRequestDTO request) {
         try {
@@ -60,7 +62,9 @@ public class AuthenticationRestControllerV1 {
         }
     }
 
-    /*Вызывая этот метод мы будем разлогиниваться.*/
+    /*Вызывая этот метод мы будем разлогиниваться.
+    * В его параметр передаем объекты HttpServletRequest и HttpServletResponse.
+    * Внутри метода создаем секьюрити контекст хендлер и вызываем у него метод logout()*/
     @PostMapping("/logout")
     public void logout(HttpServletRequest request, HttpServletResponse response) {
         SecurityContextLogoutHandler securityContextLogoutHandler = new SecurityContextLogoutHandler();

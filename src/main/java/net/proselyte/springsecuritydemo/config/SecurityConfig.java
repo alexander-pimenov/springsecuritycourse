@@ -44,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
-                .antMatchers("/api/v1/auth/login").permitAll()
+                .antMatchers("/api/v1/auth/login").permitAll() //все могут попадать на логин
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -68,7 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        return daoAuthenticationProvider;
 //    }
 
-    //Переопределяем аутентикейшн менеджера AuthenticationManager
+    //Переопределяем бин для аутентикейшн менеджера AuthenticationManager
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {

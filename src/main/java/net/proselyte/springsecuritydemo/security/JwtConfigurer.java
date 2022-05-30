@@ -7,8 +7,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.stereotype.Component;
 
 /* В этом классе конфигурируем токен аутентификацию.
- * В SecurityConfigurerAdapter используем дефолтную цепочку секьюрити DefaultSecurityFilterChain
- * и HttpSecurity configure*/
+ * В SecurityConfigurerAdapter (в параметризации) используем дефолтную цепочку секьюрити DefaultSecurityFilterChain
+ * и HttpSecurity. И переопределяем метод configure*/
 @Component
 public class JwtConfigurer extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
     private final JwtTokenFilter jwtTokenFilter;
