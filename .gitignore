@@ -31,3 +31,10 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### AI AGENTS ###
+AGENTS.md
+
+### Docker data volumes ###
+docker-compose-for-app/kafka-data/
+docker-compose-for-app/postgres-data/
