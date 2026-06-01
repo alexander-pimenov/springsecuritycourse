@@ -1,10 +1,31 @@
 package net.proselyte.springsecuritydemo.model;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
-@Data
+/**
+ * Вместо @Data используем:<br>
+ * <p>
+ * {@code @Getter}<br>
+ * {@code @Setter}<br>
+ * {@code @NoArgsConstructor}<br>
+ * <p>
+ * Чтобы не генерировать опасные:<br>
+ * <p>
+ * equals<br>
+ * hashCode<br>
+ * toString<br>
+ * <p>
+ * для JPA entity.
+ */
+//@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "users")
 public class User {
