@@ -37,7 +37,7 @@ https://github.com/proselytear/springsecuritycourse
 Ссылка на github репозиторий:
 https://github.com/proselytear/spring...
 
-Ветки:
+Ветки/Директории:
 STEP1 - шаблон проекта
 STEP2 - интеграция Spring Security
 STEP3 - работа с InMemoryUserDetailsManager
@@ -58,18 +58,18 @@ src/main/java/net/proselyte/springsecuritydemo/
 ├── config/
 │   └── SecurityConfig.java          # Security configuration
 ├── controller/
-│   └── AuthController.java      # Login/logout controllers
+│   └── AuthController.java          # Login/logout controllers
 ├── model/
 │   ├── User.java              # User entity
-│   ├── Developer.java        # Developer entity
-│   ├── Role.java             # USER, ADMIN roles
-│   ├── Permission.java      # DEVELOPERS_READ, DEVELOPERS_WRITE
-│   └── Status.java           # User status enum
+│   ├── Developer.java         # Developer entity
+│   ├── Role.java              # USER, ADMIN roles
+│   ├── Permission.java        # DEVELOPERS_READ, DEVELOPERS_WRITE
+│   └── Status.java            # User status enum
 ├── repository/
-│   └── UserRepository.java   # JPA repository
+│   └── UserRepository.java    # JPA repository
 ├── security/
-│   ├── UserDetailsServiceImpl.java  # Custom UserDetailsService
-│   └── SecurityUser.java            # UserDetails wrapper
+│   ├── UserDetailsServiceImpl.java     # Custom UserDetailsService
+│   └── SecurityUser.java               # UserDetails wrapper
 └── rest/
     └── DeveloperRestControllerV1.java  # REST API
 ```
@@ -118,7 +118,7 @@ Database settings in `application.properties`:
 
 ---
 
-#### чтобы разлогиниться нужно ввести:
+#### Чтобы разлогиниться нужно ввести:
 
 http://localhost:8080/logout
 
@@ -148,19 +148,22 @@ http://localhost:8080/auth/login
 
 ---
 
-переход в директорию с проектом в терминале ubuntu:
-
+# Особенность переключения в директорию с проектом: 
+Т.к. opencode cli  был установлен в оболочке WSL (линукс для windows), а проект лежит на диске 'C' то, чтобы перейти
+в директорию с проектом нужно использовать полный путь с динамическим определением username, если ваши проекты находятся 
+на диске 'C' и у вас система Windows, то самый универсальный подход: 
+определить переменную окружения в системе Windows, а затем читать её из WSL:
 ```bash
-cd /mnt/c/Users/pimal/Documents/Development/projects_java/springsecuritycourse
+# В WSL можно прочитать переменную Windows
+cd "/mnt/c/Users/$(cmd.exe /c echo %USERNAME% 2>/dev/null | tr -d '\r')/Documents/Development/projects_java/springsecuritycourse"
 ```
 
-
----
+--- 
 
 Step 9: аутентификация и авторизация с использованием JWT токена
 
 Если нам нужно предоставлять доступ к серверу нашим клиентам без поддержания сессии, без передачи идентификатора JSESSIONID
-в хэдере cookie, так как держать сессию не совсем удобно, для этих елей мы можем использовать подход - JWT (Json Web Token).
+в хэдере cookie, так как держать сессию не совсем удобно, для этих целей мы можем использовать подход - JWT (Json Web Token).
 
 Онлайн Encoder/Decodr JWT - https://www.jwt.io/
 В JWT хранятся какие-то данные.
@@ -202,3 +205,5 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4
 
 ### Что в модулях STEP1-9
 Пройдя по модулям можно увидеть постепенное прикручивание SpringSecurity и развитие нашего проекта.  
+
+---
